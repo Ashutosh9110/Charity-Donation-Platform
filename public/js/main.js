@@ -1,5 +1,3 @@
-
-
 document.getElementById("signupForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const name = document.getElementById("name").value;
@@ -26,7 +24,6 @@ document.getElementById("signupForm").addEventListener("submit", async (e) => {
       loginSection.classList.remove("hidden");
       signupSection.classList.add("hidden");
       localStorage.setItem("visibleSection", "main");
-
     } else {
       alert(data.msg);
     }
@@ -62,7 +59,6 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
       hideAllSections();
       document.getElementById("getBothInfoSection").classList.remove("hidden");
       document.getElementById("updateProfileBtn").classList.remove("hidden");
-      
 
       // loadMessages()
       setTimeout(() => {
@@ -85,12 +81,10 @@ document.getElementById("switchToSignup").onclick = () => {
   signupSection.classList.remove("hidden");
 };
 
-
-
 async function loadProfile() {
   const token = localStorage.getItem("token");
   const res = await fetch("http://localhost:3000/users/profile", {
-    headers: { Authorization: `Bearer ${token}` }
+    headers: { Authorization: `Bearer ${token}` },
   });
   const data = await res.json();
   document.getElementById("profileName").value = data.user.name || "";
@@ -110,42 +104,40 @@ document.getElementById("profileForm").addEventListener("submit", async (e) => {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ name, phone, email })
+    body: JSON.stringify({ name, phone, email }),
   });
 
   const data = await res.json();
   alert(data.msg);
 });
 
+document
+  .getElementById("donationForm")
+  .addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    const amount = parseFloat(document.getElementById("donationAmount").value);
+    const message = document.getElementById("donationMessage").value;
 
+    try {
+      const res = await fetch("http://localhost:3000/donations/makeDonation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ amount, message }),
+      });
 
-
-
-document.getElementById("donationForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const token = localStorage.getItem("token");
-  const amount = parseFloat(document.getElementById("donationAmount").value);
-  const message = document.getElementById("donationMessage").value;
-
-  try {
-    const res = await fetch("http://localhost:3000/donations/makeDonation", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ amount, message }),
-    });
-
-    const data = await res.json();
-    alert(data.msg);
-    document.getElementById("donationForm").reset();
-  } catch (error) {
-    alert("Error making donation");
-  }
-});
+      const data = await res.json();
+      alert(data.msg);
+      document.getElementById("donationForm").reset();
+    } catch (error) {
+      alert("Error making donation");
+    }
+  });
 
 async function loadUserDonations() {
   const token = localStorage.getItem("token");
@@ -159,40 +151,38 @@ async function loadUserDonations() {
   document.getElementById("donationSection").classList.remove("hidden");
 
   if (data.donations.length === 0) {
-    document.getElementById("donationHistory").innerHTML = "<p>No donations made so far.</p>";
+    document.getElementById("donationHistory").innerHTML =
+      "<p>No donations made so far.</p>";
     return;
   }
 
-  const history = data.donations.map((d) => {
-    const date = new Date(d.createdAt).toLocaleString();
-    return `
+  const history = data.donations
+    .map((d) => {
+      const date = new Date(d.createdAt).toLocaleString();
+      return `
       <li>
         ₹${d.amount} - ${d.message || "(no message)"} 
         <small>on ${date}</small>
         <button onclick="downloadReceipt(${d.id})">Download Receipt</button>
       </li>
     `;
-  }).join("");
+    })
+    .join("");
 
   document.getElementById("donationHistory").innerHTML = `
     <h3>Your Donation History:</h3>
     <ul>${history}</ul>
   `;
 
-  document.getElementById("donationHistory").scrollIntoView({ behavior: "smooth" });
+  document
+    .getElementById("donationHistory")
+    .scrollIntoView({ behavior: "smooth" });
 }
-
-
-
-
 
 function logout() {
   localStorage.clear();
   location.reload();
 }
-
-
-
 
 function hideAllSections() {
   document.getElementById("authSection").classList.add("hidden");
@@ -202,16 +192,13 @@ function hideAllSections() {
   document.getElementById("charitySection").classList.add("hidden");
   document.getElementById("charityCategorySection").classList.add("hidden");
   document.getElementById("charityListSection").classList.add("hidden");
-
 }
 
 function showProfileSection() {
   hideAllSections();
-  loadProfile()
+  loadProfile();
   document.getElementById("profileSection").classList.remove("hidden");
   document.getElementById("backToHomepageBtn").classList.remove("hidden");
-
-
 
   localStorage.setItem("visibleSection", "profile");
 }
@@ -223,12 +210,11 @@ function showDonationSection() {
   document.getElementById("charitySection").classList.add("hidden");
 
   document.getElementById("donationHistory").innerHTML = "";
-  document.getElementById("viewMyDonationsBtn").textContent = "View My Donations";
+  document.getElementById("viewMyDonationsBtn").textContent =
+    "View My Donations";
 
   localStorage.setItem("visibleSection", "donation");
 }
-
-
 
 function showMainOptionsSection() {
   hideAllSections();
@@ -241,27 +227,19 @@ function showMainOptionsSection() {
   localStorage.setItem("visibleSection", "main");
 }
 
+document
+  .getElementById("viewMyDonationsBtn")
+  .addEventListener("click", async () => {
+    hideAllSections();
+    document.getElementById("donationSection").classList.remove("hidden");
 
+    document.getElementById("donationFormContainer").classList.add("hidden");
 
-document.getElementById("viewMyDonationsBtn").addEventListener("click", async () => {
-  hideAllSections();
-  document.getElementById("donationSection").classList.remove("hidden");
+    document.getElementById("backToHomepageBtn").classList.remove("hidden");
+    await loadUserDonations();
 
-  document.getElementById("donationFormContainer").classList.add("hidden");
-
-  document.getElementById("backToHomepageBtn").classList.remove("hidden");
-  await loadUserDonations();
-
-  localStorage.setItem("visibleSection", "donationHistoryOnly");
-});
-
-
-
-
-
-
-
-
+    localStorage.setItem("visibleSection", "donationHistoryOnly");
+  });
 
 document.getElementById("authSection").classList.add("hidden");
 
@@ -281,15 +259,19 @@ window.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("profileSection").classList.remove("hidden");
         document.getElementById("backToHomepageBtn").classList.remove("hidden");
         break;
-        case "donation":
-          document.getElementById("donationSection").classList.remove("hidden");
-          document.getElementById("backToHomepageBtn_donation").classList.remove("hidden");
-          await loadUserDonations();
-          break;
-        
+      case "donation":
+        document.getElementById("donationSection").classList.remove("hidden");
+        document
+          .getElementById("backToHomepageBtn_donation")
+          .classList.remove("hidden");
+        await loadUserDonations();
+        break;
+
       case "main":
       default:
-        document.getElementById("getBothInfoSection").classList.remove("hidden");
+        document
+          .getElementById("getBothInfoSection")
+          .classList.remove("hidden");
         break;
     }
   } else {
@@ -297,31 +279,35 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-// 
+//
 
 function showCharitySection() {
   hideAllSections();
   document.getElementById("charitySection").classList.remove("hidden");
   document.getElementById("backToHomepageBtn").classList.remove("hidden");
-  // document.getElementById("getBothInfoSection").classList.add("hidden");
 
   localStorage.setItem("visibleSection", "charity");
 }
 
 document.getElementById("charityForm").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const name = document.getElementById("charityName").value;
-  const category = document.getElementById("charityCategory").value;
-  const mission = document.getElementById("charityMission").value;
-  const goals = document.getElementById("charityGoals").value;
-  const projects = document.getElementById("charityProjects").value;
+
+  const formData = new FormData();
+  formData.append("name", document.getElementById("charityName").value);
+  formData.append("category", document.getElementById("charityCategory").value);
+  formData.append("mission", document.getElementById("charityMission").value);
+  formData.append("goals", document.getElementById("charityGoals").value);
+  formData.append("projects", document.getElementById("charityProjects").value);
+
+  const imageFile = document.getElementById("charityImage").files[0];
+  if (imageFile) formData.append("image", imageFile); // optional
 
   try {
     const res = await fetch("http://localhost:3000/charities/register", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, category, mission, goals, projects }),
+      body: formData,
     });
+
     const data = await res.json();
     alert(data.message);
     document.getElementById("charityForm").reset();
@@ -332,18 +318,21 @@ document.getElementById("charityForm").addEventListener("submit", async (e) => {
   }
 });
 
-
-
-
-
-
-const categories = ["urgent", "animal", "children", "elderly", "disaster-relief", "hunger", "education"];
+const categories = [
+  "urgent",
+  "animal",
+  "children",
+  "elderly",
+  "disaster-relief",
+  "hunger",
+  "education",
+];
 
 function showCharityCategorySection() {
   hideAllSections();
   const container = document.getElementById("charityCategories");
   container.innerHTML = "";
-  categories.forEach(cat => {
+  categories.forEach((cat) => {
     const btn = document.createElement("button");
     btn.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
     btn.onclick = () => loadCharitiesByCategory(cat);
@@ -356,7 +345,9 @@ function showCharityCategorySection() {
 
 async function loadCharitiesByCategory(category) {
   try {
-    const res = await fetch(`http://localhost:3000/charities/category/${category}`);
+    const res = await fetch(
+      `http://localhost:3000/charities/category/${category}`
+    );
     const data = await res.json();
     displayCharities(data.charities);
     console.log(data);
@@ -372,13 +363,18 @@ function displayCharities(charities) {
   if (charities.length === 0) {
     list.innerHTML = "<p>No charities found in this category.</p>";
   } else {
-    charities.forEach(charity => {
+    charities.forEach((charity) => {
+      const imagePath = charity.imageUrl
+        ? `/uploads/${charity.imageUrl}`
+        : "default-image.jpg"; // Fallback image path
+
       const div = document.createElement("div");
       div.innerHTML = `
         <h3>${charity.name}</h3>
-        <p><strong>Mission:</strong> ${charity.mission}</p>
-        <p><strong>Goals:</strong> ${charity.goals}</p>
-        <p><strong>Projects:</strong> ${charity.projects}</p>
+        <img src="${imagePath}" alt="${charity.name}" class="charity-image" />
+        <p><strong>Mission:</strong> ${charity.mission || "N/A"}</p>
+        <p><strong>Goals:</strong> ${charity.goals || "N/A"}</p>
+        <p><strong>Projects:</strong> ${charity.projects || "N/A"}</p>
         <input type="number" placeholder="Amount" id="amount_${charity.id}" />
         <input type="text" placeholder="Message (optional)" id="message_${charity.id}" />
         <button onclick="donateToCharity(${charity.id})">Donate</button>
@@ -393,9 +389,12 @@ function displayCharities(charities) {
   localStorage.setItem("visibleSection", "charityList");
 }
 
+
 async function donateToCharity(charityId) {
   const token = localStorage.getItem("token");
-  const amount = parseFloat(document.getElementById(`amount_${charityId}`).value);
+  const amount = parseFloat(
+    document.getElementById(`amount_${charityId}`).value
+  );
   const message = document.getElementById(`message_${charityId}`).value;
 
   try {
@@ -415,14 +414,15 @@ async function donateToCharity(charityId) {
 
     const data = await res.json();
 
-    const stripe = Stripe("pk_test_51PJrVqSBjwQBc4kUllfoT0CtGV5SOPWmKna1lrslULoK692RVIiYS6m10WTfGcPFmxXEdiH62PwcWvNLwy5xZ5XT00x7wbfeX8");
+    const stripe = Stripe(
+      "pk_test_51PJrVqSBjwQBc4kUllfoT0CtGV5SOPWmKna1lrslULoK692RVIiYS6m10WTfGcPFmxXEdiH62PwcWvNLwy5xZ5XT00x7wbfeX8"
+    );
     stripe.redirectToCheckout({ sessionId: data.id });
   } catch (err) {
     alert("Failed to initiate donation payment.");
     console.error("Stripe error:", err.message || err);
   }
 }
-
 
 // Download Receipt Section
 

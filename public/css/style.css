@@ -74,6 +74,15 @@ form {
   transform: scale(1.05);
 }
 
+.charity-image {
+  display: block;
+  margin: 30px auto; /* centers image horizontally with vertical spacing */
+  max-width: 90%;
+  width: 500px; /* or any size you want */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
 #donationHistory ul {
   list-style-type: none;
   padding: 0;

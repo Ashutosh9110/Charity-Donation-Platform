@@ -1,33 +1,31 @@
 const charityModel = require("../dbModels/charityModel");
 
-
-
-
 const registerCharity = async (req, res) => {
   try {
     const { name, mission, goals, projects, category } = req.body;
-
-    // Check if required fields are present
+    const imageUrl = req.file ? req.file.filename : null;
     if (!name || !category) {
-      return res.status(400).json({ message: "Name and category are required." });
+      return res
+        .status(400)
+        .json({ message: "Name and category are required." });
     }
-
     const charity = await charityModel.create({
       name,
       mission,
       goals,
       projects,
       category,
+      imageUrl,
     });
 
-    res.status(201).json({ message: "Charity registered successfully!", charity });
+    res
+      .status(201)
+      .json({ message: "Charity registered successfully!", charity });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Error registering charity." });
   }
 };
-
-
 
 const getAllCharities = async (req, res) => {
   try {
@@ -36,7 +34,7 @@ const getAllCharities = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: "Failed to fetch charities" });
   }
-}
+};
 
 const getCharityById = async (req, res) => {
   try {
@@ -46,8 +44,7 @@ const getCharityById = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: "Failed to fetch charity" });
   }
-}
-
+};
 
 const getCharitiesByCategory = async (req, res) => {
   try {
@@ -56,17 +53,13 @@ const getCharitiesByCategory = async (req, res) => {
     res.status(200).json({ charities });
   } catch (err) {
     console.error("Error fetching charities by category:", err);
-    res.status(500).json({ error: "Failed to fetch charities by category" });  }
+    res.status(500).json({ error: "Failed to fetch charities by category" });
+  }
 };
-
 
 module.exports = {
   registerCharity,
   getAllCharities,
   getCharityById,
-  getCharitiesByCategory
-  
+  getCharitiesByCategory,
 };
-
-
-

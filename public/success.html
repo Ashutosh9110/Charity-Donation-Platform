@@ -1,3 +1,75 @@
-<h2>🎉 Thank you for your donation!</h2>
-<p>We'll email you a receipt soon.</p>
-<a href="/">Go Back Home</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thank You!</title>
+  <style>
+    body {
+      background: #f0f8ff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #333;
+    }
+
+    .thank-you-container {
+      background: white;
+      padding: 40px 60px;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      color: #2e8b57;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    a {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #2e8b57;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    a:hover {
+      background-color: #246b45;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="thank-you-container">
+    <h2>🎉 Thank you for your donation!</h2>
+    <p>Your kindness makes a real difference. Your contribution will go directly to support those in need.</p>
+    <p>You'll receive an email receipt shortly.</p>
+    <a href="/">← Go Back Home</a>
+  </div>
+</body>
+</html>

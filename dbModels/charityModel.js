@@ -7,6 +7,8 @@ const charityModel = sequelize.define("charityModel", {
   mission: { type: DataTypes.TEXT },
   goals: { type: DataTypes.TEXT },
   projects: { type: DataTypes.TEXT },
+  imageUrl: { type: DataTypes.STRING }
+
 });
 
 

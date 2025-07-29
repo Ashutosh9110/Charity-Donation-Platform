@@ -11,6 +11,7 @@ const app = express()
 
 app.use(express.json())
 app.use(express.static("public"))
+app.use("/uploads", express.static("uploads"));
 
 app.use("/users", userRoutes)
 app.use("/donations", donationRoutes)
@@ -24,7 +25,7 @@ app.get("/success", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "success.html")); // Adjust path if needed
 });
 
-sequelize.sync().then(() => {
+sequelize.sync({alter:true}).then(() => {
   const PORT = process.env.PORT;
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

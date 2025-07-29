@@ -113,7 +113,7 @@
 <!-- Charity Registration and Info Section -->
 <div id="charitySection" class="hidden">
   <h2>Register Charity</h2>
-  <form id="charityForm">
+  <form id="charityForm" enctype="multipart/form-data">
     <input type="text" id="charityName" placeholder="Charity Name" required />
     <select id="charityCategory" required>
       <option value="">Select a Category</option>
@@ -124,6 +124,9 @@
       <option value="disaster-relief">Disaster Relief</option>
       <option value="hunger">Hunger</option>
       <option value="education">Education</option>
+      
+      <input type="file" id="charityImage" name="image" accept="image/*" /><br><br>
+      <button type="submit">Register Charity</button>
     </select> <br><br>  
 
     <textarea id="charityMission" placeholder="Mission"></textarea><br><br><br>
