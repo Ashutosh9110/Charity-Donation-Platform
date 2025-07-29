@@ -14,6 +14,7 @@
   <!--  Profile update button -->
   <div style="text-align: right;">
     <!-- <button onclick="showMainOptionsSection()">Back to Donations</button> -->
+    <button id="backToHomepageBtn" class="hidden" onclick="showMainOptionsSection()">Back to Homepage</button>
     <button onclick="logout()" style="margin-top: 20px;">Logout</button>
     <button onclick="showProfileSection()" id="updateProfileBtn" class="hidden">Update Profile</button>
   </div>
@@ -58,7 +59,6 @@
   <div id="charityCategories">
     <!-- We'll dynamically create buttons for each category -->
   </div>
-  <button onclick="showMainOptionsSection()">Back</button>
 </div>
 
 
@@ -90,7 +90,7 @@
 <!-- Donation Section -->
 
 <div id="donationSection" class="hidden">
-  <h2>Make a Donation</h2>
+  <h2>It's a beautiful life!! But they don't get to see any of it. Help someone in need. Donate!!</h2>
 
   <!-- WRAP the donation form in a div -->
   <div id="donationFormContainer">
@@ -101,7 +101,7 @@
     </form>
   </div>
 
-  <button id="backToHomepageBtn_donation" class="hidden" onclick="showMainOptionsSection()">Back to Homepage</button>
+  <!-- <button id="backToHomepageBtn_donation" class="hidden" onclick="showMainOptionsSection()">Back to Homepage</button> -->
 
   <!-- Donation History container -->
   <div id="donationHistory"></div>
@@ -131,7 +131,7 @@
     <textarea id="charityProjects" placeholder="Projects"></textarea><br><br><br>
     
     <button type="submit">Register Charity</button>
-    <button id="backToHomepageBtn_charity" onclick="showMainOptionsSection()">Back to Homepage</button>
+    <!-- <button id="backToHomepageBtn_charity" onclick="showMainOptionsSection()">Back to Homepage</button> -->
   </form>
 </div>
 

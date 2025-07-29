@@ -199,6 +199,10 @@ function hideAllSections() {
   document.getElementById("getBothInfoSection").classList.add("hidden");
   document.getElementById("profileSection").classList.add("hidden");
   document.getElementById("donationSection").classList.add("hidden");
+  document.getElementById("charitySection").classList.add("hidden");
+  document.getElementById("charityCategorySection").classList.add("hidden");
+  document.getElementById("charityListSection").classList.add("hidden");
+
 }
 
 function showProfileSection() {
@@ -206,7 +210,8 @@ function showProfileSection() {
   loadProfile()
   document.getElementById("profileSection").classList.remove("hidden");
   document.getElementById("backToHomepageBtn").classList.remove("hidden");
-  document.getElementById("backToHomepageBtn_donation").classList.add("hidden");
+
+
 
   localStorage.setItem("visibleSection", "profile");
 }
@@ -214,8 +219,7 @@ function showProfileSection() {
 function showDonationSection() {
   hideAllSections();
   document.getElementById("donationSection").classList.remove("hidden");
-  document.getElementById("backToHomepageBtn").classList.add("hidden");
-  document.getElementById("backToHomepageBtn_donation").classList.remove("hidden");
+  document.getElementById("backToHomepageBtn").classList.remove("hidden");
   document.getElementById("charitySection").classList.add("hidden");
 
   document.getElementById("donationHistory").innerHTML = "";
@@ -229,8 +233,10 @@ function showDonationSection() {
 function showMainOptionsSection() {
   hideAllSections();
   document.getElementById("getBothInfoSection").classList.remove("hidden");
-  document.getElementById("backToHomepageBtn").classList.add("hidden");
+  document.getElementById("backToHomepageBtn").classList.remove("hidden");
   document.getElementById("charitySection").classList.add("hidden");
+  document.getElementById("charityListSection").classList.add("hidden");
+  document.getElementById("charityCategorySection").classList.add("hidden");
 
   localStorage.setItem("visibleSection", "main");
 }
@@ -238,26 +244,17 @@ function showMainOptionsSection() {
 
 
 document.getElementById("viewMyDonationsBtn").addEventListener("click", async () => {
-  const historyDiv = document.getElementById("donationHistory");
-  const button = document.getElementById("viewMyDonationsBtn");
+  hideAllSections();
+  document.getElementById("donationSection").classList.remove("hidden");
 
-  const isHidden = historyDiv.innerHTML.trim() === "";
+  document.getElementById("donationFormContainer").classList.add("hidden");
 
-  if (isHidden) {
-    // Hide all sections and show only donationSection
-    hideAllSections();
-    document.getElementById("donationSection").classList.add("hidden");
+  document.getElementById("backToHomepageBtn").classList.remove("hidden");
+  await loadUserDonations();
 
-    await loadUserDonations();
-    button.textContent = "Hide My Donations";
-    document.getElementById("backToHomepageBtn_donation").classList.remove("hidden");
-  } else {
-    // Clear history and go back to main options
-    historyDiv.innerHTML = "";
-    button.textContent = "View My Donations";
-    showMainOptionsSection();
-  }
+  localStorage.setItem("visibleSection", "donationHistoryOnly");
 });
+
 
 
 
@@ -300,12 +297,13 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-
+// 
 
 function showCharitySection() {
   hideAllSections();
   document.getElementById("charitySection").classList.remove("hidden");
-  document.getElementById("charityCategorySection").classList.add("hidden");
+  document.getElementById("backToHomepageBtn").classList.remove("hidden");
+  // document.getElementById("getBothInfoSection").classList.add("hidden");
 
   localStorage.setItem("visibleSection", "charity");
 }
@@ -352,6 +350,7 @@ function showCharityCategorySection() {
     container.appendChild(btn);
   });
   document.getElementById("charityCategorySection").classList.remove("hidden");
+  document.getElementById("backToHomepageBtn").classList.remove("hidden");
   localStorage.setItem("visibleSection", "charityCategory");
 }
 
