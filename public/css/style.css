@@ -25,3 +25,19 @@ th, td {
   text-align: left;
 }
 th { background: #f0f0f0; }
+
+
+
+
+
+
+#donationHistory ul {
+  list-style-type: none;
+  padding: 0;
+  font-size: larger;
+}
+
+#donationHistory li {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}

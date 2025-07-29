@@ -5,9 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Charity Donation App</title>
   <link rel="stylesheet" href="./css/style.css">
+  <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
-    <!-- 🔐 Auth Section -->
+
+ <h1>Welcome to the Charity Donation Platform</h1>
+
+  <!--  Profile update button -->
+  <div style="text-align: right;">
+    <!-- <button onclick="showMainOptionsSection()">Back to Donations</button> -->
+    <button onclick="logout()" style="margin-top: 20px;">Logout</button>
+    <button onclick="showProfileSection()" id="updateProfileBtn" class="hidden">Update Profile</button>
+  </div>
+
+
+    <!-- Auth Section -->
   <div id="authSection" style="text-align: center; font-size: x-large;">
     <div id="signupSection">
       <h2>Sign Up</h2>
@@ -32,6 +44,98 @@
       <button id="forgotPasswordBtn">Forgot Password</button>
     </div>
   </div>
+
+
+<div id="getBothInfoSection">
+  <button onclick="showCharityCategorySection()">Make a Donation</button>
+  <button onclick="showCharitySection()">Register your Charitable organization</button>
+  <button id="viewMyDonationsBtn">View my donations</button>
+</div>
+
+
+<div id="charityCategorySection" class="hidden">
+  <h2>Select a Charity Category</h2>
+  <div id="charityCategories">
+    <!-- We'll dynamically create buttons for each category -->
+  </div>
+  <button onclick="showMainOptionsSection()">Back</button>
+</div>
+
+
+<div id="charityListSection" class="hidden">
+  <h2>Available Charities</h2>
+  <div id="charityList"></div>
+  <button onclick="showCharityCategorySection()">Back to Categories</button>
+</div>
+
+
+
+<!-- Profile Section -->
+
+  <div id="profileSection" class="hidden">
+    <h2>Your Profile</h2>
+    <form id="profileForm">
+      <input type="text" id="profileName" placeholder="Name" required />
+      <input type="tel" id="profilePhone" placeholder="Phone" />
+      <input type="text" id="profileEmail" placeholder="Email" />
+      <button type="submit">Update Profile</button>
+    </form>
+    <button id="backToHomepageBtn" class="hidden" onclick="showMainOptionsSection()">Back to Homepage</button>
+    <button onclick="loadProfile()">Refresh</button>
+
+  </div>
+  
+
+
+<!-- Donation Section -->
+
+<div id="donationSection" class="hidden">
+  <h2>Make a Donation</h2>
+
+  <!-- WRAP the donation form in a div -->
+  <div id="donationFormContainer">
+    <form id="donationForm">
+      <input type="number" id="donationAmount" placeholder="Donation Amount" required />
+      <input type="text" id="donationMessage" placeholder="Message (optional)" />
+      <button type="submit">Donate</button>
+    </form>
+  </div>
+
+  <button id="backToHomepageBtn_donation" class="hidden" onclick="showMainOptionsSection()">Back to Homepage</button>
+
+  <!-- Donation History container -->
+  <div id="donationHistory"></div>
+</div>
+
+
+
+
+<!-- Charity Registration and Info Section -->
+<div id="charitySection" class="hidden">
+  <h2>Register Charity</h2>
+  <form id="charityForm">
+    <input type="text" id="charityName" placeholder="Charity Name" required />
+    <select id="charityCategory" required>
+      <option value="">Select a Category</option>
+      <option value="urgent">Urgent</option>
+      <option value="animal">Animal</option>
+      <option value="children">Children</option>
+      <option value="elderly">Elderly</option>
+      <option value="disaster-relief">Disaster Relief</option>
+      <option value="hunger">Hunger</option>
+      <option value="education">Education</option>
+    </select> <br><br>  
+
+    <textarea id="charityMission" placeholder="Mission"></textarea><br><br><br>
+    <textarea id="charityGoals" placeholder="Goals"></textarea><br><br><br>
+    <textarea id="charityProjects" placeholder="Projects"></textarea><br><br><br>
+    
+    <button type="submit">Register Charity</button>
+    <button id="backToHomepageBtn_charity" onclick="showMainOptionsSection()">Back to Homepage</button>
+  </form>
+</div>
+
+
 
   <script src="./js/main.js"></script>
 </body>

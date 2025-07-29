@@ -33,7 +33,7 @@ const signIn = async (req, res) => {
     if(!isPasswordValid) {
       return res.status(409).json({ msg : `Incorrect Password`})
     }
-    const token =  jwt.sign({userId : user.id, email:user.email}, process.env.SECRET_KEY, { expiresIn: "1h"})
+    const token =  jwt.sign({userId : user.id}, process.env.SECRET_KEY, { expiresIn: "1h"})
       return res.json({ msg : `User logged in`, token})
   } catch (error) {
     res.status(500).json({ msg : "Unable to signin the user"})
@@ -41,7 +41,38 @@ const signIn = async (req, res) => {
 }
 
 
+const getProfile = async (req, res) => {
+  try {
+    const userId = req.user.userId; // Comes from JWT middleware
+    const user = await users.findByPk(userId, { attributes: { exclude: ['password'] } });
+    console.log("Decoded user from token:", req.user);
+    res.json({ user });
+  } catch (error) {
+    res.status(500).json({ msg: "Failed to fetch profile" });
+  }
+};
+
+const updateProfile = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const { name, phone, address } = req.body;
+    await users.update({ name, phone, address }, { where: { id: userId } });
+    res.json({ msg: "Profile updated successfully" });
+  } catch (error) {
+    res.status(500).json({ msg: "Failed to update profile" });
+  }
+};
+
+
+
+module.exports = {
+  signUp, signIn, getProfile, updateProfile
+};
+
+
 module.exports = { 
   signIn,
-  signUp
-}
+  signUp,
+  getProfile,
+  updateProfile
+} 
